@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>台南三天兩夜｜家庭旅行互動行程</title>
+<style>
+:root {
+  --bg:#f7f3ec; --card:#fffdf8; --ink:#263238; --muted:#6c757d;
+  --accent:#8b5e3c; --accent2:#d7b899; --line:#e6ddd2; --ok:#4f7d61;
+  --day1:#f6e6d5; --day2:#e7efe8; --day3:#e5ebf4;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+.wrap{max-width:920px;margin:auto;padding:18px}
+.hero{padding:22px 20px;border-radius:22px;background:linear-gradient(135deg,#fffaf2,#efe4d5);border:1px solid var(--line);margin-bottom:16px}
+h1{font-size:clamp(26px,5vw,40px);line-height:1.2;margin:0 0 8px}
+.hero p{margin:4px 0;color:var(--muted)}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.badge{padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:14px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:sticky;top:0;background:rgba(247,243,236,.96);backdrop-filter:blur(8px);padding:8px 0;z-index:5}
+.tab{border:1px solid var(--line);background:#fff;padding:12px 8px;border-radius:14px;font-weight:700;font-size:15px;cursor:pointer}
+.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
+.panel{display:none} .panel.active{display:block}
+.summary{margin:12px 0 16px;padding:14px 16px;border-radius:16px;border:1px solid var(--line)}
+.day1{background:var(--day1)} .day2{background:var(--day2)} .day3{background:var(--day3)}
+.stop{display:grid;grid-template-columns:34px 1fr;gap:10px;position:relative;padding-bottom:14px}
+.stop:before{content:"";position:absolute;left:16px;top:30px;bottom:-4px;width:2px;background:var(--line)}
+.stop:last-child:before{display:none}
+.dot{width:16px;height:16px;margin:9px 0 0 8px;border-radius:50%;background:var(--accent2);border:3px solid #fff;box-shadow:0 0 0 1px var(--line);z-index:1}
+.stop.done .dot{background:var(--ok)}
+.stop.done .title{text-decoration:line-through;opacity:.58}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px}
+.topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.title{font-weight:800;font-size:17px}
+.time{font-weight:800;color:var(--accent);white-space:nowrap}
+.desc{margin-top:4px;color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+a.btn,button.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer}
+a.map{background:var(--accent);color:#fff;border-color:var(--accent)}
+.check{width:22px;height:22px;accent-color:var(--ok);margin-top:2px}
+.note{margin-top:10px;padding:10px 12px;background:#fff;border-left:4px solid var(--accent2);border-radius:10px;font-size:14px}
+.food{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}
+.food>div{padding:11px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{border:2px solid var(--line);border-radius:18px;background:var(--card);padding:15px;cursor:pointer;text-align:left}
+.choice.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(139,94,60,.08)}
+.choice h3{margin:0 0 5px}
+.choice-result{margin:12px 0;padding:12px;border:1px dashed var(--accent);border-radius:12px;background:#fff}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.progress{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.bar{height:9px;border-radius:999px;background:#eee;overflow:hidden} .bar>div{height:100%;width:0;background:var(--ok);transition:.2s}
+.small{font-size:13px;color:var(--muted)}
+.route{padding:12px;border-radius:14px;background:#fff;border:1px solid var(--line);margin-top:10px;font-size:14px}
+footer{padding:18px 4px 32px;color:var(--muted);font-size:13px}
+@media(max-width:680px){
+ .wrap{padding:12px} .choice-grid,.food{grid-template-columns:1fr} .topline{flex-direction:column}
+ .tabs{gap:6px} .tab{font-size:14px;padding:10px 4px}
+}
+@media print{
+ .tabs,.toolbar,.check,.btn,.progress{display:none!important}
+ .panel{display:block!important} body{background:white} .card{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <h1>台南三天兩夜 🚗</h1>
+    <p><b>2026/10/1（四）– 10/3（六）｜中壢出發｜爸媽同行</b></p>
+    <p>主軸：怕熱、白天以冷氣室內景點為主；自駕優先好停車、少折返。</p>
+    <div class="badges">
+      <span class="badge">09:00 出發</span><span class="badge">國道一號</span>
+      <span class="badge">3 次南下休息</span><span class="badge">有某行旅</span>
+      <span class="badge">Day 2 台史博＋阿力海</span>
+    </div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-day="1">Day 1<br><small>10/1 四</small></button>
+    <button class="tab" data-day="2">Day 2<br><small>10/2 五</small></button>
+    <button class="tab" data-day="3">Day 3<br><small>10/3 六</small></button>
+  </nav>
+
+  <div class="toolbar">
+    <button class="btn" id="showAll">顯示全部 3 天</button>
+    <button class="btn" id="reset">清除完成勾選</button>
+    <button class="btn" onclick="window.print()">列印 / 存成 PDF</button>
+  </div>
+
+  <section id="day1" class="panel active">
+    <div class="summary day1"><b>Day 1｜南下＋南美館＋南紡</b><br>9 點出發，午餐直接在西螺服務區；最熱的下午待室內。</div>
+
+    <div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">中壢出發</div><div class="desc">國道一號南下，第一天不用太早起。</div></div><div class="time">09:00</div></div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E6%A1%83%E5%9C%92%E5%B8%82%E4%B8%AD%E5%A3%A2%E5%8D%80">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">湖口服務區（南下）</div><div class="desc">第一次休息，上廁所、買水、伸展一下。</div></div><div class="time">約 10:00–10:20</div></div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E6%B9%96%E5%8F%A3%E6%9C%8D%E5%8B%99%E5%8D%80%20%E5%8D%97%E4%B8%8B">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">泰安服務區（南下）</div><div class="desc">第二次休息，約 15–20 分鐘。</div></div><div class="time">約 11:20–11:40</div></div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E6%B3%B0%E5%AE%89%E6%9C%8D%E5%8B%99%E5%8D%80%20%E5%8D%97%E4%B8%8B">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">西螺服務區（南下）｜午餐</div><div class="desc">第三次休息＋正式午餐，直接在服務區解決最省事。</div></div><div class="time">約 12:40–13:40</div></div>
+      <div class="note">🍱 建議：西螺便當／台式熱食；想簡單就三商巧福或摩斯。這站休息抓 1 小時。</div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E8%A5%BF%E8%9E%BA%E6%9C%8D%E5%8B%99%E5%8D%80%20%E5%8D%97%E4%B8%8B">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">臺南市美術館 2 館</div><div class="desc">第一天下午主景點。室內冷氣、建築好看，週四 10:00–18:00。</div></div><div class="time">約 15:00–17:00</div></div>
+      <div class="note">怕熱版安排：不排安平、神農街等長時間戶外行程。南美館 2 館有地下停車場。</div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8D%97%E5%B8%82%E7%BE%8E%E8%A1%93%E9%A4%A82%E9%A4%A8">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">有某行旅｜入住＋休息</div><div class="desc">放行李、稍微休息，再去南紡。</div></div><div class="time">約 17:20–18:10</div></div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E6%9C%89%E6%9F%90%E8%A1%8C%E6%97%85%20you%20mou%20hostel%20%E5%8F%B0%E5%8D%97">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">南紡購物中心｜晚餐分流</div><div class="desc">爸媽載你到南紡；你和同學吃牛肉火鍋，爸媽在南紡吃別間餐廳。</div></div><div class="time">約 18:30 起</div></div>
+      <div class="food"><div><b>你</b><br>和同學會合 → 牛肉火鍋。</div><div><b>爸媽</b><br>南紡館內自行選餐廳，吹冷氣、好停車。</div></div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E5%8D%97%E7%B4%A1%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div>
+  </section>
+
+  <section id="day2" class="panel">
+    <div class="summary day2"><b>Day 2｜文學館＋甕仔雞＋台史博＋阿力海</b><br>午餐直接安排好停車的甕仔雞；下午固定台史博，晚上桂田分流。</div>
+
+    <div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">國立臺灣文學館</div><div class="desc">上午室內景點，建築漂亮、冷氣舒服，行程不會太累。</div></div><div class="time">09:30–11:00</div></div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E5%9C%8B%E7%AB%8B%E8%87%BA%E7%81%A3%E6%96%87%E5%AD%B8%E9%A4%A8">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">山頂居甕仔雞（大灣店）｜午餐</div><div class="desc">甕仔雞＋熱炒合菜，店家有專屬停車場，適合家庭自駕。</div></div><div class="time">11:20–12:50</div></div>
+      <div class="note">🍗 三人建議點法：甕仔雞＋雞油拌麵線／炒飯＋1 道青菜＋1 道湯或小炒。晚上還有阿力海，不用點太多。</div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E5%B1%B1%E9%A0%82%E5%B1%85%E7%94%95%E4%BB%94%E9%9B%9E%20%E5%A4%A7%E7%81%A3%E5%BA%97">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">國立臺灣歷史博物館</div><div class="desc">第二天核心。館內 09:00–17:00，附停車場；完整留約 2.5 小時。</div></div><div class="time">13:40–16:30</div></div>
+      <div class="note">🚘 小客車停車採計次收費。16:30 左右離館，前往桂田酒店時間很充裕。</div>
+      <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E5%9C%8B%E7%AB%8B%E8%87%BA%E7%81%A3%E6%AD%B7%E5%8F%B2%E5%8D%9A%E7%89%A9%E9%A4%A8">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div><div class="stop"><div class="dot"></div><div class="card">
+      <div class="topline"><div><div class="title">桂田酒店｜晚餐分流</div><div class="desc">同一地點分開吃，吃完再集合，爸媽不用另外找停車位。</div></div><div class="time">18:00–21:00</div></div>
+      <div class="food">
+        <div><b>你：阿力海百匯</b><br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E6%A1%82%E7%94%B0%E9%85%92%E5%BA%97%20%E9%98%BF%E5%8A%9B%E6%B5%B7%E7%99%BE%E5%8C%AF%E9%A4%90%E5%BB%B3">開啟 Google 地圖</a></div>
+        <div><b>爸媽：好也粵式中餐廳</b><br>桂田酒店內，週五晚餐時段可用。<br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E6%A1%82%E7%94%B0%E9%85%92%E5%BA%97%20%E5%A5%BD%E4%B9%9F%E7%B2%B5%E5%BC%8F%E4%B8%AD%E9%A4%90%E5%BB%B3">開啟 Google 地圖</a></div>
+      </div>
+      <div class="actions"><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+    </div></div>
+  </section>
+
+  <section id="day3" class="panel">
+    <div class="summary day3"><b>Day 3｜兩套完整方案</b><br>兩套都以「怕熱＋好停車＋下午順利北返」為原則。點下面 A / B 可標記你們最後選哪套。</div>
+
+    <div class="choice-grid">
+      <button class="choice selected" data-choice="A">
+        <h3>方案 A｜奇美博物館</h3>
+        <div>代表性較高、第一次來台南很適合。午餐吃府城台菜，再北返。</div>
+      </button>
+      <button class="choice" data-choice="B">
+        <h3>方案 B｜南科考古館</h3>
+        <div>更順路北返、幾乎全室內。午餐吃新市牛肉湯後直接接國一。</div>
+      </button>
+    </div>
+    <div class="choice-result" id="choiceResult"><b>目前選擇：方案 A｜奇美博物館</b></div>
+
+    <div id="planA">
+      <div class="stop"><div class="dot"></div><div class="card">
+        <div class="topline"><div><div class="title">退房 → 奇美博物館</div><div class="desc">週六 09:30 開館。館內為主，戶外拍照看體力即可。</div></div><div class="time">09:30–12:20</div></div>
+        <div class="note">🚘 奇美有 P1、P2、P4 等付費停車場；若怕熱，抵達後以就近停車、直接進館為主。</div>
+        <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E5%A5%87%E7%BE%8E%E5%8D%9A%E7%89%A9%E9%A4%A8">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+      </div></div><div class="stop"><div class="dot"></div><div class="card">
+        <div class="topline"><div><div class="title">府城食府・新仁店｜午餐</div><div class="desc">正宗台南料理，備停車位；三人可以點小份台菜，比熱門牛肉鍋更不用排長隊。</div></div><div class="time">12:35–13:45</div></div>
+        <div class="note">🍽️ 建議：蝦捲／虱目魚類＋肉燥／米糕類＋青菜，再看食量加一道主菜。</div>
+        <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E5%BA%9C%E5%9F%8E%E9%A3%9F%E5%BA%9C%20%E6%AD%A3%E5%AE%97%E5%8F%B0%E5%8D%97%E6%96%99%E7%90%86%20%E6%96%B0%E4%BB%81%E5%BA%97">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+      </div></div><div class="stop"><div class="dot"></div><div class="card">
+        <div class="topline"><div><div class="title">北返中壢</div><div class="desc">約 14:00 上路；途中依精神狀況休息 1–2 次，不再塞景點。</div></div><div class="time">14:00 起</div></div>
+        <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E6%A1%83%E5%9C%92%E5%B8%82%E4%B8%AD%E5%A3%A2%E5%8D%80">📍 中壢 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+      </div></div>
+    </div>
+
+    <div id="planB" style="display:none">
+      <div class="stop"><div class="dot"></div><div class="card">
+        <div class="topline"><div><div class="title">退房 → 南科考古館</div><div class="desc">週六 09:00–17:00。全館以室內展覽為主，且位置就在北返方向。</div></div><div class="time">09:30–11:30</div></div>
+        <div class="note">🚘 可停行政服務區地下停車場，北側另有戶外免費停車場；自駕很方便。</div>
+        <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E5%9C%8B%E7%AB%8B%E8%87%BA%E7%81%A3%E5%8F%B2%E5%89%8D%E6%96%87%E5%8C%96%E5%8D%9A%E7%89%A9%E9%A4%A8%20%E5%8D%97%E7%A7%91%E8%80%83%E5%8F%A4%E9%A4%A8">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+      </div></div><div class="stop"><div class="dot"></div><div class="card">
+        <div class="topline"><div><div class="title">阿牛仔牛肉湯・新市店｜午餐</div><div class="desc">新市在地牛肉湯，路邊停車相對方便；比回市中心吃飯更順路。</div></div><div class="time">11:45–12:50</div></div>
+        <div class="note">🥣 建議：牛肉湯／綜合湯＋肉燥飯＋蔥蛋或炒青菜。吃完直接準備北返。</div>
+        <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E9%98%BF%E7%89%9B%E4%BB%94%E7%89%9B%E8%82%89%E6%B9%AF%20%E6%96%B0%E5%B8%82%E5%BA%97">📍 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+      </div></div><div class="stop"><div class="dot"></div><div class="card">
+        <div class="topline"><div><div class="title">新市／台南系統 → 國一北上 → 中壢</div><div class="desc">約 13:00 左右啟程，這套是返程最順、最不曝曬的方案。</div></div><div class="time">13:00 起</div></div>
+        <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%E6%A1%83%E5%9C%92%E5%B8%82%E4%B8%AD%E5%A3%A2%E5%8D%80">📍 中壢 Google 地圖</a><label class="btn"><input class="check" type="checkbox"> 完成</label></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="progress">
+    <div style="display:flex;justify-content:space-between;gap:12px"><b>行程完成進度</b><span id="progressText">0%</span></div>
+    <div class="bar"><div id="progressBar"></div></div>
+    <div class="small" style="margin-top:7px">勾選狀態只保留在目前開啟的頁面，不會上傳任何資料。</div>
+  </section>
+
+  <footer>
+    <b>使用方式：</b>直接把這個 HTML 檔傳給爸媽，用 Chrome / Safari 開啟即可。所有「Google 地圖」按鈕都會另開地圖搜尋。<br>
+    <b>行前提醒：</b>熱門餐廳與展館仍可能臨時調整營業資訊；出發當天可再點地圖確認最新狀態。
+  </footer>
+</div>
+
+<script>
+const tabs=[...document.querySelectorAll('.tab')];
+const panels=[...document.querySelectorAll('.panel')];
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.toggle('active',x===t));
+  panels.forEach(p=>p.classList.toggle('active',p.id==='day'+t.dataset.day));
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+document.getElementById('showAll').addEventListener('click',()=>{
+  panels.forEach(p=>p.classList.add('active'));
+  tabs.forEach(t=>t.classList.remove('active'));
+});
+
+const checks=[...document.querySelectorAll('.check')];
+function updateProgress(){
+  checks.forEach(c=>c.closest('.stop')?.classList.toggle('done',c.checked));
+  const n=checks.filter(c=>c.checked).length;
+  const pct=checks.length?Math.round(n/checks.length*100):0;
+  document.getElementById('progressText').textContent=pct+'%（'+n+'/'+checks.length+'）';
+  document.getElementById('progressBar').style.width=pct+'%';
+}
+checks.forEach(c=>c.addEventListener('change',updateProgress));
+document.getElementById('reset').addEventListener('click',()=>{checks.forEach(c=>c.checked=false);updateProgress();});
+
+const choices=[...document.querySelectorAll('.choice')];
+choices.forEach(b=>b.addEventListener('click',()=>{
+  choices.forEach(x=>x.classList.toggle('selected',x===b));
+  const a=b.dataset.choice==='A';
+  document.getElementById('planA').style.display=a?'block':'none';
+  document.getElementById('planB').style.display=a?'none':'block';
+  document.getElementById('choiceResult').innerHTML='<b>目前選擇：'+(a?'方案 A｜奇美博物館':'方案 B｜南科考古館')+'</b>';
+}));
+updateProgress();
+</script>
+</body>
+</html>
